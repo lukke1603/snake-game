@@ -16,6 +16,13 @@ const columns = 30;
 let mealEnergy = 0;
 let tickInterval;
 
+const snakePixels = ref([
+  { x: 7, y: Math.round(rows * 0.7) },
+  { x: 8, y: Math.round(rows * 0.7) },
+  { x: 9, y: Math.round(rows * 0.7) },
+  { x: 10, y: Math.round(rows * 0.7) },
+]);
+
 /**
  * 38 => up
  * 39 => right
@@ -31,12 +38,7 @@ const height = ref(rows * pixelSize);
 const tickDuration = ref(200);
 const isResultVisible = ref(false);
 
-const snakePixels = ref([
-  { x: 7, y: Math.round(rows * 0.7) },
-  { x: 8, y: Math.round(rows * 0.7) },
-  { x: 9, y: Math.round(rows * 0.7) },
-  { x: 10, y: Math.round(rows * 0.7) },
-]);
+
 
 const snakeMatrix = computed(() => {
   return Object.assign({}, ...snakePixels.value.map(pixel => ({ [`${pixel.x}-${pixel.y}`]: pixel })))
