@@ -14,7 +14,17 @@ const pixelSize = 20;
 const rows = 20;
 const columns = 30;
 let mealEnergy = 0;
+let tickInterval;
 
+/**
+ * 38 => up
+ * 39 => right
+ * 40 => down
+ * 37 => left
+ */
+const direction = ref(39);
+const temporaryDirection = ref(39);
+const meal = ref(generateRandomMeal(columns, rows, snakePixels.value));
 const width = ref(columns * pixelSize);
 const height = ref(rows * pixelSize);
 
@@ -32,27 +42,11 @@ const snakeMatrix = computed(() => {
   return Object.assign({}, ...snakePixels.value.map(pixel => ({ [`${pixel.x}-${pixel.y}`]: pixel })))
 });
 
-const meal = ref(generateRandomMeal(columns, rows, snakePixels.value));
-
-
-/**
- * 38 => up
- * 39 => right
- * 40 => down
- * 37 => left
- */
-const direction = ref(39);
-
-// prevents the snake from u-turning
-const temporaryDirection = ref(39);
-
-
 const stopGame = () => {
   clearInterval(tickInterval);
   isResultVisible.value = true;
 }
 
-let tickInterval;
 const tickHandler = () => {
   direction.value = temporaryDirection.value;
 
