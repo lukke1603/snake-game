@@ -52,15 +52,10 @@ export const calculateNextSnakePixel = (snakePixels, direction) => {
  * @param {number} currentDirection 
  */
 export const identifyNextDirection = (newDirection, currentDirection) => {
-  const leftSteer = currentDirection === 37 ? 40 : currentDirection - 1;
-  const rightSteer = currentDirection === 40 ? 37 : currentDirection + 1;
-
-  if (newDirection === leftSteer || newDirection === rightSteer) {
-    return newDirection;
-  }
-
-  return currentDirection;
-}
+  return (newDirection + currentDirection) % 2 == 0
+    ? currentDirection
+    : newDirection;
+};
 
 
 
