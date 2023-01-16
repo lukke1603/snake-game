@@ -1,5 +1,5 @@
 <script setup>
-import SnakeGame from './components/SnakeGame.vue'
+import SnakeGame from "./components/SnakeGame.vue";
 </script>
 
 <template>
