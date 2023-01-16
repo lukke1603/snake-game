@@ -1,14 +1,14 @@
 <script setup>
-import { computed, ref } from 'vue';
-import { 
+import { computed, ref } from "vue";
+import {
   calculateNextSnakePixel,
-  generateRandomMeal, 
-  hasFoundMeal, 
-  hasSelfCollission, 
-  hasWallCollission, 
-  identifyNextDirection, 
-  MealTypes
-} from '../services/snakeService';
+  generateRandomMeal,
+  hasFoundMeal,
+  hasSelfCollission,
+  hasWallCollission,
+  identifyNextDirection,
+  MealTypes,
+} from "../services/snakeService";
 
 const pixelSize = 20;
 const rows = 20;
@@ -38,16 +38,17 @@ const height = ref(rows * pixelSize);
 const tickDuration = ref(200);
 const isResultVisible = ref(false);
 
-
-
 const snakeMatrix = computed(() => {
-  return Object.assign({}, ...snakePixels.value.map(pixel => ({ [`${pixel.x}-${pixel.y}`]: pixel })))
+  return Object.assign(
+    {},
+    ...snakePixels.value.map((pixel) => ({ [`${pixel.x}-${pixel.y}`]: pixel }))
+  );
 });
 
 const stopGame = () => {
   clearInterval(tickInterval);
   isResultVisible.value = true;
-}
+};
 
 const tickHandler = () => {
   direction.value = temporaryDirection.value;
@@ -57,10 +58,13 @@ const tickHandler = () => {
 
   snakePixels.value = [
     ...snakePixels.value.slice(pixelsToSlice),
-    calculateNextSnakePixel(snakePixels.value, direction.value)
+    calculateNextSnakePixel(snakePixels.value, direction.value),
   ];
 
-  if (hasWallCollission(snakePixels.value, columns, rows) || hasSelfCollission(snakePixels.value)) {
+  if (
+    hasWallCollission(snakePixels.value, columns, rows) ||
+    hasSelfCollission(snakePixels.value)
+  ) {
     stopGame();
   }
 
@@ -72,7 +76,7 @@ const tickHandler = () => {
     clearInterval(tickInterval);
     tickInterval = setInterval(tickHandler, tickDuration.value);
   }
-}
+};
 
 tickInterval = setInterval(tickHandler, tickDuration.value);
 
@@ -83,22 +87,35 @@ const handleKeyEvent = (e) => {
       temporaryDirection.value = nextDirection;
     }
   }
-}
+};
 
-window.addEventListener('keydown', handleKeyEvent);
+window.addEventListener("keydown", handleKeyEvent);
 </script>
 
 <template>
   <main>
-    <div class="container" :style="{ width: `${width}px`, height: `${height}px` }">
+    <div
+      class="container"
+      :style="{ width: `${width}px`, height: `${height}px` }"
+    >
       <div class="playground" :style="{ opacity: isResultVisible ? 0.5 : 1 }">
         <div v-for="row in rows" :key="`row-${row}`" class="row">
           <div v-for="col in columns" :key="`col-${col}`" class="col">
             <div v-if="snakeMatrix[`${col}-${row}`]" class="snake-body"></div>
-            <template v-else-if="meal.position.x === col && meal.position.y === row">
-              <mdicon v-if="meal.type === MealTypes.Mouse" name="rodent" :width="pixelSize" :height="pixelSize"
-                class="icon" />
-              <i v-if="meal.type === MealTypes.Frog" class="fa-solid fa-frog icon"></i>
+            <template
+              v-else-if="meal.position.x === col && meal.position.y === row"
+            >
+              <mdicon
+                v-if="meal.type === MealTypes.Mouse"
+                name="rodent"
+                :width="pixelSize"
+                :height="pixelSize"
+                class="icon"
+              />
+              <i
+                v-if="meal.type === MealTypes.Frog"
+                class="fa-solid fa-frog icon"
+              ></i>
             </template>
           </div>
         </div>
