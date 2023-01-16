@@ -159,5 +159,5 @@ export const hasSelfCollission = (snakePixels) => {
 export const hasWallCollission = (snakePixels, columns, rows) => {
   const { x, y } = snakePixels.slice(-1)[0];
 
-  return x < 0 || x > columns || y < 0 || y > rows;
+  return x < 1 || x > columns || y < 1 || y > rows;
 };
