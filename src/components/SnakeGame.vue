@@ -58,20 +58,20 @@ const tickHandler = () => {
 
   snakePixels.value = [
     ...snakePixels.value.slice(pixelsToSlice),
-    calculateNextSnakePixel(snakePixels.value, direction.value),
+    calculateNextSnakePixel([...snakePixels.value], direction.value),
   ];
 
   if (
-    hasWallCollission(snakePixels.value, columns, rows) ||
-    hasSelfCollission(snakePixels.value)
+    hasWallCollission([...snakePixels.value], columns, rows) ||
+    hasSelfCollission([...snakePixels.value])
   ) {
     stopGame();
   }
 
-  if (hasFoundMeal(snakePixels.value, meal.value)) {
+  if (hasFoundMeal([...snakePixels.value], meal.value)) {
     mealEnergy = meal.value.type + 1;
 
-    meal.value = generateRandomMeal(columns, rows, snakePixels.value);
+    meal.value = generateRandomMeal(columns, rows, [...snakePixels.value]);
     tickDuration.value -= tickDuration.value < 75 ? 4 : 7;
     clearInterval(tickInterval);
     tickInterval = setInterval(tickHandler, tickDuration.value);
